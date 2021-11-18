@@ -7,6 +7,25 @@ import idlelib.colorizer as ic
 import idlelib.percolator as i
 import re
 import tkinter
+
+from pygments.lexers.python import PythonLexer
+from pygments.lexers.special import TextLexer
+from pygments.lexers.html import HtmlLexer
+from pygments.lexers.html import XmlLexer
+from pygments.lexers.templates import HtmlPhpLexer
+from pygments.lexers.perl import Perl6Lexer
+from pygments.lexers.ruby import RubyLexer
+from pygments.lexers.configs import IniLexer
+from pygments.lexers.configs import ApacheConfLexer
+from pygments.lexers.shell import BashLexer
+from pygments.lexers.diff import DiffLexer
+from pygments.lexers.dotnet import CSharpLexer
+from pygments.lexers.sql import MySqlLexer
+from pygments.lexers.javascript import JavascriptLexer
+from pygments.lexers.jvm import JavaLexer
+from pygments.lexers.c_cpp import CLexer
+from pygments.lexers.c_cpp import CppLexer
+from pygments.lexers.css import CssLexer
 # create an instance for window
 window = Tk()
 # set title for window
@@ -112,6 +131,7 @@ edit_menu = Menu(menu, tearoff=0)
 run_menu = Menu(menu, tearoff=0)
 view_menu = Menu(menu, tearoff=0)
 theme_menu = Menu(menu, tearoff=0)
+language_menu = Menu(menu, tearoff=0)
 # add menu labels
 menu.add_cascade(label="File", menu=file_menu)
 menu.add_cascade(label="Edit", menu=edit_menu)
@@ -175,6 +195,442 @@ theme_menu.add_command(label="dark", command=dark)
 # create output window to display output of written code
 output_window = ScrolledText(window, height=10)
 output_window.pack(fill=BOTH, expand=1)
+
+def lang_py():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = PythonLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index
+   
+def lang_js():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = JavascriptLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index
+
+def lang_java():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = JavaLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index        
+ 
+def lang_c():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = CLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index        
+
+def lang_cpp():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = CppLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index         
+        
+def lang_cs():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = CSharpLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index        
+
+def lang_html():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = HtmlLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index       
+        
+def lang_css():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = CssLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index           
+        
+def lang_xml():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = XmlLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index         
+        
+        
+def lang_sql():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = MySqlLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index   
+
+def lang_bash():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = BashLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index          
+
+def lang_perl():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = Per16Lexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index   
+        
+def lang_php():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = HtmlPhpLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index          
+        
+def lang_ruby():
+        """
+            this method colors and styles the prepared tags
+        """
+        code = editor.get("1.0", "end-1c")
+        tokensource = RubyLexer().get_tokens(code)
+        start_line=1
+        start_index = 0
+        end_line=1
+        end_index = 0
+        
+        for ttype, value in tokensource:
+            if "\n" in value:
+                end_line += value.count("\n")
+                end_index = len(value.rsplit("\n",1)[1])
+            else:
+                end_index += len(value)
+ 
+            if value not in (" ", "\n"):
+                index1 = "%s.%s" % (start_line, start_index)
+                index2 = "%s.%s" % (end_line, end_index)
+ 
+                for tagname in editor.tag_names(index1): # FIXME
+                    editor.tag_remove(tagname, index1, index2)
+ 
+                editor.tag_add(str(ttype), index1, index2)
+ 
+            start_line = end_line
+            start_index = end_index        
+        
+language_menu.add_command(label="Python", command=lang_py)
+language_menu.add_command(label="Javascript/Node", command=lang_js)
+language_menu.add_command(label="Java", command=lang_java)
+language_menu.add_command(label="C", command=lang_c)
+language_menu.add_command(label="C++", command=lang_cpp)
+language_menu.add_command(label="C#", command=lang_cs)
+language_menu.add_command(label="HTML", command=lang_html)
+language_menu.add_command(label="CSS", command=lang_css)
+language_menu.add_command(label="XML", command=lang_xml)
+language_menu.add_command(label="SQL", command=lang_sql)
+language_menu.add_command(label="BASH/BATCH", command=lang_bash)
+language_menu.add_command(label="Perl", command=lang_perl)
+language_menu.add_command(label="PHP/HTML", command=lang_php)
+language_menu.add_command(label="Ruby", command=lang_ruby)
 
 # auo set to dark mode
 editor.config(fg="white", bg="#2c2f33")
