@@ -10,16 +10,16 @@ import re
 import tkinter
 
 from pygments.lexers.python import PythonLexer
-# from pygments.lexers.special import TextLexer
+from pygments.lexers.special import TextLexer
 from pygments.lexers.html import HtmlLexer
 from pygments.lexers.html import XmlLexer
 from pygments.lexers.templates import HtmlPhpLexer
 from pygments.lexers.perl import Perl6Lexer
 from pygments.lexers.ruby import RubyLexer
-# from pygments.lexers.configs import IniLexer
-# from pygments.lexers.configs import ApacheConfLexer
+from pygments.lexers.configs import IniLexer
+from pygments.lexers.configs import ApacheConfLexer
 from pygments.lexers.shell import BashLexer
-# from pygments.lexers.diff import DiffLexer
+from pygments.lexers.diff import DiffLexer
 from pygments.lexers.dotnet import CSharpLexer
 from pygments.lexers.sql import MySqlLexer
 from pygments.lexers.javascript import JavascriptLexer
@@ -259,7 +259,7 @@ def create_tags():
     italic_font.configure(slant=font.ITALIC)
     bold_italic_font = font.Font(editor, editor.cget("font"))
     bold_italic_font.configure(weight=font.BOLD, slant=font.ITALIC)
-    style = get_style_by_name("default")
+    style = get_style_by_name("")
 
     for ttype, ndef in style:
         tag_font = None
@@ -275,6 +275,7 @@ def create_tags():
             foreground = "#%s" % ndef["color"]
         else:
             foreground = None
+
 
         editor.tag_configure(str(ttype), foreground=foreground, font=tag_font)
 
