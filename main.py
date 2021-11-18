@@ -3,6 +3,10 @@ from tkinter import ttk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter.scrolledtext import ScrolledText
 import subprocess
+import idlelib.colorizer as ic
+import idlelib.percolator as i
+import re
+import tkinter
 # create an instance for window
 window = Tk()
 # set title for window
@@ -15,6 +19,21 @@ editor = ScrolledText(window, font=("haveltica 10 bold"), wrap=None)
 editor.pack(fill=BOTH, expand=1)
 editor.focus()
 file_path = ""
+
+cdg = ic.ColorDelegator()
+cdg.prog = re.compile(r'\b(?P<MYGROUP>tkinter)\b|' + ic.make_pat(), re.S)
+cdg.idprog = re.compile(r'\s+(\w+)', re.S)
+
+cdg.tagdefs['MYGROUP'] = {'foreground': '#7F7F7F'}
+
+# These five lines are optional. If omitted, default colours are used.
+cdg.tagdefs['COMMENT'] = {'foreground': '#FF0000'}
+cdg.tagdefs['KEYWORD'] = {'foreground': '#007F00'}
+cdg.tagdefs['BUILTIN'] = {'foreground': '#7F7F00'}
+cdg.tagdefs['STRING'] = {'foreground': '#7F3F00'}
+cdg.tagdefs['DEFINITION'] = {'foreground': '#007F7F'}
+
+ip.Percolator(editor).insertfilter(cdg)
 # function to open files
 def open_file(event=None):
     global code, file_path
@@ -56,7 +75,7 @@ def run(event=None):
     code = editor.get(1.0, END)
     exec(code)
     '''    
-    cmd = f"python {file_path}"
+    cmd = "python {file_path}".format(file_path=file_path)
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE, shell=True)
     output, error =  process.communicate()
@@ -135,7 +154,7 @@ def change_word(event = None):
         text_change = True
         word = len(editor.get(1.0, "end-1c").split())
         chararcter = len(editor.get(1.0, "end-1c").replace(" ",""))
-        status_bars.config(text = f"www.bullshit.software \t\t\t\t\t\t characters: {chararcter} words: {word}")
+        status_bars.config(text = "www.bullshit.software \t\t\t\t\t\t characters: {character} words: {word}".format(character=chararcter, word=word))
     editor.edit_modified(False)
 editor.bind("<<Modified>>",change_word)
 # function for light mode window
@@ -144,6 +163,10 @@ def light():
     output_window.config(bg="white")
 # function for dark mode window
 def dark():
+    editor.config(fg="white", bg="#2c2f33")
+    output_window.config(fg="white", bg="#2c2f33")
+    
+def ultra_dark():
     editor.config(fg="white", bg="black")
     output_window.config(fg="white", bg="black")
 # add commands to change themes
@@ -154,7 +177,7 @@ output_window = ScrolledText(window, height=10)
 output_window.pack(fill=BOTH, expand=1)
 
 # auo set to dark mode
-editor.config(fg="white", bg="black")
-output_window.config(fg="white", bg="black")
+editor.config(fg="white", bg="#2c2f33")
+output_window.config(fg="white", bg="#2c2f33")
 
 window.mainloop()
